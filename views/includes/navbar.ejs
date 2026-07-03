@@ -1,0 +1,99 @@
+<nav class="navbar navbar-expand-lg bg-light border-bottom sticky-top">
+    <div class="container">
+
+        <!-- Logo -->
+        <a class="navbar-brand" href="/listings">
+            <i class="fa-solid fa-compass"></i>
+        </a>
+
+        <!-- Mobile Toggle -->
+        <button
+            class="navbar-toggler"
+            type="button"
+            data-bs-toggle="collapse"
+            data-bs-target="#navbarNavAltMarkup"
+            aria-controls="navbarNavAltMarkup"
+            aria-expanded="false"
+            aria-label="Toggle navigation">
+
+            <span class="navbar-toggler-icon"></span>
+        </button>
+
+        <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
+
+            <!-- Left -->
+            <div class="navbar-nav">
+                <a class="nav-link" href="/listings">Explore</a>
+            </div>
+
+            <!-- Center Search -->
+            <div class="search-container">
+
+                <form class="search-form"
+                      action="/listings"
+                      method="GET">
+
+                    <input
+                        type="search"
+                        name="search"
+                        class="form-control search-input"
+                        placeholder="Search by title, location or country">
+
+                    <button class="btn btn-search" type="submit">
+                        <i class="fa-solid fa-magnifying-glass"></i>
+                        Search
+                    </button>
+
+                </form>
+
+            </div>
+
+            <!-- Tax Toggle -->
+            <div class="form-check form-switch mx-3 align-self-center">
+                <input
+                    class="form-check-input"
+                    type="checkbox"
+                    role="switch"
+                    id="tax-switch">
+
+                <label class="form-check-label" for="tax-switch">
+                    Display Total After Taxes
+                </label>
+            </div>
+
+            <!-- Right -->
+            <div class="navbar-nav ms-auto align-items-lg-center">
+
+                <button id="themeToggle"
+                        class="btn theme-btn me-3">
+                    <i class="fa-solid fa-moon"></i>
+                </button>
+
+                <a class="nav-link" href="/listings/new">
+                    Airbnb your home
+                </a>
+
+                <% if(!currUser){ %>
+
+                    <a class="nav-link" href="/signup">
+                        <b>Sign Up</b>
+                    </a>
+
+                    <a class="nav-link" href="/login">
+                        <b>Log In</b>
+                    </a>
+
+                <% } else { %>
+
+                    <a class="nav-link" href="/logout">
+                        <b>Log Out</b>
+                    </a>
+
+                <% } %>
+
+            </div>
+
+        </div>
+
+    </div>
+</nav>

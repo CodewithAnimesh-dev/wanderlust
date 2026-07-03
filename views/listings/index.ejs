@@ -1,0 +1,62 @@
+<% layout("/layouts/boilerplate.ejs") %>
+
+<div class="container mt-3">
+
+    <!-- ⭐ FILTER BAR -->
+    <div class="mb-4 d-flex flex-wrap gap-2">
+
+        <a href="/listings" class="btn btn-outline-dark btn-sm">All</a>
+        <a href="/listings?category=Trending" class="btn btn-outline-primary btn-sm">Trending</a>
+        <a href="/listings?category=Iconic Cities" class="btn btn-outline-primary btn-sm">Iconic Cities</a>
+        <a href="/listings?category=Mountains" class="btn btn-outline-primary btn-sm">Mountains</a>
+        <a href="/listings?category=Castles" class="btn btn-outline-primary btn-sm">Castles</a>
+        <a href="/listings?category=Amazing Pools" class="btn btn-outline-primary btn-sm">Amazing Pools</a>
+        <a href="/listings?category=Camping" class="btn btn-outline-primary btn-sm">Camping</a>
+        <a href="/listings?category=Farms" class="btn btn-outline-primary btn-sm">Farms</a>
+        <a href="/listings?category=Domes" class="btn btn-outline-primary btn-sm">Domes</a>
+        <a href="/listings?category=Boating" class="btn btn-outline-primary btn-sm">Boating</a>
+
+    </div>
+
+    <!-- 🏡 LISTINGS GRID -->
+    <div class="row row-cols-lg-3 row-cols-md-2 row-cols-sm-1">
+
+        <% allListings.forEach(listing => { %>
+
+            <div class="col mb-4">
+                <div class="card h-100">
+
+                    <img src="<%= listing.image.url %>"
+                         class="card-img-top"
+                         style="height: 200px; object-fit: cover;">
+
+                    <div class="card-body">
+
+                        <h5 class="card-title"><%= listing.title %></h5>
+
+                        <p class="card-text">
+                            <%= listing.location %>, <%= listing.country %>
+                        </p>
+
+                        <!-- PRICE -->
+                        <p class="fw-bold">
+                            <span class="price" data-price="<%= listing.price %>">
+                                ₹ <%= listing.price.toLocaleString("en-IN") %>
+                            </span>
+                        </p>
+
+                        <a href="/listings/<%= listing._id %>"
+                           class="btn btn-dark btn-sm">
+                            View Details
+                        </a>
+
+                    </div>
+
+                </div>
+            </div>
+
+        <% }) %>
+
+    </div>
+
+</div>
