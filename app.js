@@ -63,11 +63,11 @@ const sessionOptions={
         httpOnly:true
     },
 };
-/*
+
 app.get("/",(req,res)=>{
-    res.send("hi, i am root");
+    res.redirect("/listings");
 });
-*/
+
 
 
 
