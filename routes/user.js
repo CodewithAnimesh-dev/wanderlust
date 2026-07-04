@@ -15,26 +15,36 @@ router
 router
 .route("/login")
 .get(userController.renderLogin)
-.post(saveRedirectUrl,(req, res, next) => {
+.post(saveRedirectUrl, async (req, res, next) => {
+
+    const { username } = req.body;
+
+    // Check whether the user exists
+    const existingUser = await User.findOne({ username });
+
+    if (!existingUser) {
+        req.flash("error", "No account found. Please sign up to continue.");
+        return res.redirect("/signup");
+    }
+
     passport.authenticate("local", (err, user, info) => {
-        console.log("Error:", err);
-        console.log("User:", user);
-        console.log("Info:", info);
 
         if (err) return next(err);
 
         if (!user) {
-            req.flash("error", "Invalid username or password");
+            req.flash("error", "Invalid username or password.");
             return res.redirect("/login");
         }
 
         req.logIn(user, (err) => {
             if (err) return next(err);
 
-            req.flash("success", "Welcome to Wanderlust");
-            let redirectUrl=res.locals.redirectUrl || "/listings";
+            req.flash("success", "Welcome back!");
+
+            let redirectUrl = res.locals.redirectUrl || "/listings";
             return res.redirect(redirectUrl);
         });
+
     })(req, res, next);
 });
 
