@@ -21,41 +21,90 @@
     <!-- 🏡 LISTINGS GRID -->
     <div class="row row-cols-lg-3 row-cols-md-2 row-cols-sm-1">
 
-        <% allListings.forEach(listing => { %>
+        <% if(allListings.length === 0){ %>
 
-            <div class="col mb-4">
-                <div class="card h-100">
+            <div class="col-12 text-center py-5">
 
-                    <img src="<%= listing.image.url %>"
-                         class="card-img-top"
-                         style="height: 200px; object-fit: cover;">
+                <h2 class="text-danger mb-3">
+                    No Listings Found
+                </h2>
 
-                    <div class="card-body">
+                <% if(search){ %>
+                    <p class="fs-5">
+                        No listings match
+                        <strong>"<%= search %>"</strong>.
+                    </p>
+                <% } %>
 
-                        <h5 class="card-title"><%= listing.title %></h5>
+                <% if(category){ %>
+                    <p class="fs-5">
+                        No listings found in
+                        <strong><%= category %></strong>.
+                    </p>
+                <% } %>
 
-                        <p class="card-text">
-                            <%= listing.location %>, <%= listing.country %>
-                        </p>
+                <p class="text-muted">
+                    Be the first to add a listing!
+                </p>
 
-                        <!-- PRICE -->
-                        <p class="fw-bold">
-                            <span class="price" data-price="<%= listing.price %>">
-                                ₹ <%= listing.price.toLocaleString("en-IN") %>
-                            </span>
-                        </p>
+                <% if(currUser){ %>
 
-                        <a href="/listings/<%= listing._id %>"
-                           class="btn btn-dark btn-sm">
-                            View Details
-                        </a>
+                    <a href="/listings/new" class="btn btn-dark mt-2">
+                        Create New Listing
+                    </a>
 
-                    </div>
+                <% } else { %>
 
-                </div>
+                    <a href="/login" class="btn btn-danger mt-2">
+                        Login to Create Listing
+                    </a>
+
+                <% } %>
+
             </div>
 
-        <% }) %>
+        <% } else { %>
+
+            <% allListings.forEach(listing => { %>
+
+                <div class="col mb-4">
+                    <div class="card h-100">
+
+                        <img src="<%= listing.image.url %>"
+                             class="card-img-top"
+                             style="height: 200px; object-fit: cover;">
+
+                        <div class="card-body">
+
+                            <h5 class="card-title">
+                                <%= listing.title %>
+                            </h5>
+
+                            <p class="card-text">
+                                <%= listing.location %>,
+                                <%= listing.country %>
+                            </p>
+
+                            <!-- PRICE -->
+                            <p class="fw-bold">
+                                <span class="price" data-price="<%= listing.price %>">
+                                    ₹ <%= listing.price.toLocaleString("en-IN") %>
+                                </span>
+                            </p>
+
+                            <a href="/listings/<%= listing._id %>"
+                               class="btn btn-dark btn-sm">
+                                View Details
+                            </a>
+
+                        </div>
+
+                    </div>
+                </div>
+
+            <% }) %>
+
+        <% } %>
 
     </div>
 

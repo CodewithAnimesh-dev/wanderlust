@@ -6,8 +6,6 @@ const geocodingClient = mbxGeocoding({ accessToken: mapToken });
 module.exports.index = async (req, res) => {
     const { search, category } = req.query;
 
-    console.log("Search received:", `"${search}"`);
-
     let filter = {};
 
     // Search filter
@@ -24,23 +22,13 @@ module.exports.index = async (req, res) => {
         filter.category = { $in: [category] };
     }
 
-    console.log("Filter:", filter);
-
     const allListings = await Listing.find(filter);
 
-    console.log("Total Results:", allListings.length);
-
-    allListings.forEach((listing) => {
-        console.log(
-            listing.title,
-            "|",
-            listing.location,
-            "|",
-            listing.country
-        );
+    res.render("listings/index.ejs", {
+        allListings,
+        search,
+        category,
     });
-
-    res.render("listings/index.ejs", { allListings });
 };
 
 module.exports.renderNewForm = (req, res) => {
@@ -89,7 +77,6 @@ module.exports.createListing = async (req, res) => {
 
     newListing.geometry = response.body.features[0].geometry;
 
-    // Handle multiple categories
     if (!Array.isArray(req.body.listing.category)) {
         newListing.category = req.body.listing.category
             ? [req.body.listing.category]
@@ -151,7 +138,6 @@ module.exports.updateListing = async (req, res) => {
         };
     }
 
-    // Handle multiple categories
     if (!Array.isArray(req.body.listing.category)) {
         listing.category = req.body.listing.category
             ? [req.body.listing.category]
