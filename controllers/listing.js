@@ -6,14 +6,16 @@ const geocodingClient = mbxGeocoding({ accessToken: mapToken });
 module.exports.index = async (req, res) => {
     const { search, category } = req.query;
 
+    console.log("Search received:", `"${search}"`);
+
     let filter = {};
 
     // Search filter
     if (search && search.trim() !== "") {
         filter.$or = [
-            { title: { $regex: search, $options: "i" } },
-            { location: { $regex: search, $options: "i" } },
-            { country: { $regex: search, $options: "i" } }
+            { title: { $regex: search.trim(), $options: "i" } },
+            { location: { $regex: search.trim(), $options: "i" } },
+            { country: { $regex: search.trim(), $options: "i" } }
         ];
     }
 
@@ -22,7 +24,21 @@ module.exports.index = async (req, res) => {
         filter.category = { $in: [category] };
     }
 
+    console.log("Filter:", filter);
+
     const allListings = await Listing.find(filter);
+
+    console.log("Total Results:", allListings.length);
+
+    allListings.forEach((listing) => {
+        console.log(
+            listing.title,
+            "|",
+            listing.location,
+            "|",
+            listing.country
+        );
+    });
 
     res.render("listings/index.ejs", { allListings });
 };
